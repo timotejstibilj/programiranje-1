@@ -18,7 +18,7 @@ csv_filename = "csv-db.csv"
 
 
 def download_url_to_string(url):
-    """Funkcija kot argument sprejme niz in puskuša vrniti vsebino te spletne
+    """Funkcija kot argument sprejme niz in poskusi vrniti vsebino te spletne
     strani kot niz. V primeru, da med izvajanje pride do napake vrne None.
     """
     try:
@@ -82,7 +82,7 @@ def page_to_ads(page_content):
 
 
 # Definirajte funkcijo, ki sprejme niz, ki predstavlja oglas, in izlušči
-# podatke o imenu, ceni in opisu v oglasu.
+# podatke o imenu, lokaciji, datumu objave in ceni v oglasu.
 
 
 def get_dict_from_ad_block(block):
