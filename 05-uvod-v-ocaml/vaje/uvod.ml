@@ -214,7 +214,7 @@ let rec second_largest sez =
     | [] -> failwith "Prazen seznam nima maksimuma."
     | [x] -> x
     | x :: xs ->
-      let max_rest = find_max sez in
+      let max_rest = find_max xs in
         if x > max_rest then x else max_rest
   in
     let sez' = remove (find_max sez) sez in
