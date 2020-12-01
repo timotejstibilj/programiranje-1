@@ -180,10 +180,14 @@ type magic_counter = {
   arcane : int
 }
 
-let update ({arcane} as counter) = function
-  | Fire -> {fire = counter.fire + 1; frost = counter.frost; arcane = counter.arcane}
+(*tle je prikazanih več načinov za isto stvar: s {...} razpakiraš record npr {fire, frost, arcane},
+lahko razpakiraš samo en del npr {fire} as counter -> fire lahko kličeš samo kot fire, vse v recordu counter pa kot counter.karkoli npr counter.frost
+*)
+let update ({fire} as counter) magic =
+  match magic with
+  | Fire -> {fire = fire + 1; frost = counter.frost; arcane = counter.arcane}
   | Frost -> {counter with frost = counter.frost + 1}
-  | Arcane -> {counter with arcane = arcane + 1}
+  | Arcane -> {counter with arcane = counter.arcane + 1}
 
 
 (*----------------------------------------------------------------------------*]
