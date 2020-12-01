@@ -188,6 +188,7 @@ let update ({fire} as counter) magic =
   | Fire -> {fire = fire + 1; frost = counter.frost; arcane = counter.arcane}
   | Frost -> {counter with frost = counter.frost + 1}
   | Arcane -> {counter with arcane = counter.arcane + 1}
+(*with arcane pomeni da obdržiš star record tak kot je razen arcane spremeniš*)
 
 
 (*----------------------------------------------------------------------------*]
