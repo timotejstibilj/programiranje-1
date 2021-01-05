@@ -9,6 +9,9 @@
  val l : int list = [0; 1; 0; 4; 0; 9; 1; 2; 5; 4]
 [*----------------------------------------------------------------------------*)
 
+let rec randlist len max =
+    if len <= 0 then []
+    else Random.int max :: randlist (len - 1) max
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  Sedaj lahko s pomočjo [randlist] primerjamo našo urejevalno funkcijo (imenovana
@@ -53,6 +56,17 @@
  pojavitvijo elementa [z]. V primeru praznega seznama vrne [None]. 
 [*----------------------------------------------------------------------------*)
 
+let rec min_and_rest list =
+    (* najdemo minimum in odstranimo preostanek *)
+    let rec odstrani_preostanek x l = match l with
+    | [] -> []
+    | (y::ys) -> if x=y then ys else (y :: odstrani_preostanek x ys)
+    in
+    match list with
+    | [] -> None
+    | x::xs ->
+    let min_trenutnega = List.fold_left min x xs in
+    Some (min_trenutnega, odstrani_preostanek min_trenutnega (x::xs))
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  Pri urejanju z izbiranjem na vsakem koraku ločimo dva podseznama, kjer je prvi
@@ -72,7 +86,15 @@
  Namig: Uporabi [min_and_rest] iz prejšnje naloge.
 [*----------------------------------------------------------------------------*)
 
-
+let rec selection_sort l =
+    match l with
+    | [] -> []
+    | x::xs -> 
+        ( 
+            match min_and_rest l with
+            | None -> failwith "to se ne sme zgodit"
+            | Some (mini, tail) -> mini :: (selection_sort tail)
+        )
 
 (*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*]
  Urejanje z Izbiranjem na Tabelah

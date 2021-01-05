@@ -42,7 +42,7 @@ let rec repeat x n = if n <= 0 then [] else x :: (repeat x (n-1))
 
 let rec range n = 
   let rec range_pomozna acc n = 
-    if n <= 0 then acc
+    if n < 0 then acc
     else range_pomozna (n::acc) (n-1)
   in
   range_pomozna [] n
@@ -111,10 +111,8 @@ let rec zip list1 list2 =
  - : int list * string list = ([0; 1; 2], ["a"; "b"; "c"])
 [*----------------------------------------------------------------------------*)
 
-let rec unzip sez =
-  match sez with
-  | [] -> [], []
-  | (x, y) :: rest -> let (sez1,sez2) = unzip rest in (x :: sez1, y :: sez2)
+
+
 
 (*----------------------------------------------------------------------------*]
  Funkcija [unzip_tlrec] je repno rekurzivna različica funkcije [unzip].
@@ -124,12 +122,12 @@ let rec unzip sez =
 [*----------------------------------------------------------------------------*)
 
 let unzip_tlrec list =
-  let rec unzip_aux list acc1 acc2 =
+  let rec unzip_aux acc1 acc2 list =
     match list with
     | [] -> (reverse acc1, reverse acc2)
-    | (x, y) :: tl -> unzip_aux tl (x :: acc1) (y :: acc2)
+    | (x, y) :: rest -> unzip_aux (x :: acc1) (y :: acc2) rest
   in
-  unzip_aux list [] []
+  unzip_aux [] [] list
 
 (*----------------------------------------------------------------------------*]
  Funkcija [loop condition f x] naj se izvede kot python koda:

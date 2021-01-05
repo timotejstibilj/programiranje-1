@@ -236,3 +236,5 @@ let rec find_candidate magic specialization wizard_list =
         when magic = student_magic && years >= zahtevana_leta specialization ->
           Some wizard.name
     | _ -> find_candidate magic specialization wizards
+
+  
