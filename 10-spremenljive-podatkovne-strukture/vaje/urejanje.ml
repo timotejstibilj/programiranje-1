@@ -38,13 +38,19 @@ let rec randlist len max =
  - : int list = [7]
 [*----------------------------------------------------------------------------*)
 
+let rec insert y list=
+    match list with
+    | [] -> [y]
+    | x :: xs -> 
+        if y < x then y :: list 
+        else insert y xs
 
 (*----------------------------------------------------------------------------*]
  Prazen seznam je že urejen. Funkcija [insert_sort] uredi seznam tako da
  zaporedoma vstavlja vse elemente seznama v prazen seznam.
 [*----------------------------------------------------------------------------*)
 
-
+let insert_sort list = List.fold_left (fun acc x -> insert x acc) [] list
 
 (*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*]
  Urejanje z Izbiranjem
@@ -86,15 +92,12 @@ let rec min_and_rest list =
  Namig: Uporabi [min_and_rest] iz prejšnje naloge.
 [*----------------------------------------------------------------------------*)
 
-let rec selection_sort l =
-    match l with
-    | [] -> []
-    | x::xs -> 
-        ( 
-            match min_and_rest l with
-            | None -> failwith "to se ne sme zgodit"
-            | Some (mini, tail) -> mini :: (selection_sort tail)
-        )
+let selection_sort list =
+  let rec aux sorted unsorted =
+    match min_and_rest unsorted with
+    | None -> List.rev sorted
+    | Some (x, unsorted') -> aux (x::sorted) unsorted'
+  in aux [] list
 
 (*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*]
  Urejanje z Izbiranjem na Tabelah
@@ -123,6 +126,10 @@ let rec selection_sort l =
  - : int array = [|0; 4; 2; 3; 1|]
 [*----------------------------------------------------------------------------*)
 
+let swap a i j =
+  let first = a.(i) in
+  a.(i) <- a.(j);
+  a.(j) <- first
 
 (*----------------------------------------------------------------------------*]
  Funkcija [index_min a lower upper] poišče indeks najmanjšega elementa tabele
@@ -130,6 +137,14 @@ let rec selection_sort l =
  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  index_min [|0; 2; 9; 3; 6|] 2 4 = 4
 [*----------------------------------------------------------------------------*)
+
+let index_min a lower upper =
+  let index_min = ref lower in
+  for i = lower to upper do
+    if a.(i) < a.(!index_min) then
+      index_min := i
+  done;
+  !index_min
 
 
 (*----------------------------------------------------------------------------*]
@@ -139,3 +154,16 @@ let rec selection_sort l =
  skupaj z [randlist].
 [*----------------------------------------------------------------------------*)
 
+let selection_sort_array a =
+  let index_end = Array.length a - 1 in
+  (* Every step moves boundary_sorted one place to the right. *)
+  for boundary_sorted = 0 to index_end do
+    let i = index_min a boundary_sorted index_end in
+    swap a i boundary_sorted
+  done
+
+let selection_sort_list list =
+  (* For testing purposes. *)
+  let a = Array.of_list list in
+  selection_sort_array a;
+  Array.to_list a
