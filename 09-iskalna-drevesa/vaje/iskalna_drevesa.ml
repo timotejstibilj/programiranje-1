@@ -219,6 +219,7 @@ let rec delete x = function
           | None -> left
           | Some n -> Node (left, n, delete n right)
 
+
 let rec delete2 x = function
      | Empty -> Empty
      | Node (l, y, r) -> 
@@ -255,7 +256,9 @@ type ('key, 'value) dict = ('key * 'value) tree
      "c":-2
 [*----------------------------------------------------------------------------*)
 
-let test_dict : (string, int) dict =  Node (leaf ("a", 0), ("b", 1), Node (leaf ("c", -2), ("d", 2), Empty))
+let test_dict
+  : (string, int) dict
+  = Node (leaf ("a", 0), ("b", 1), Node (leaf ("c", -2), ("d", 2), Empty))
 
 (*----------------------------------------------------------------------------*]
  Funkcija [dict_get key dict] v slovarju poišče vrednost z ključem [key]. Ker
@@ -267,6 +270,13 @@ let test_dict : (string, int) dict =  Node (leaf ("a", 0), ("b", 1), Node (leaf 
  - : int option = Some (-2)
 [*----------------------------------------------------------------------------*)
 
+let rec dict_get key dict = 
+     match dict with
+          | Empty -> None
+          | Node(l, (x1, x2), r) ->
+               if key = x1 then Some xs
+               else if key < x1 then dict_get key l
+               else dict_get key r 
       
 (*----------------------------------------------------------------------------*]
  Funkcija [print_dict] sprejme slovar s ključi tipa [string] in vrednostmi tipa

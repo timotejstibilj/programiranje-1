@@ -14,7 +14,7 @@ let rec reverse1 list =
 let rec reverse list =
   let rec reverse_pomozna acc = function
     | [] -> acc
-    | x::xs -> reverse_pomozna (x::acc) xs
+    | x :: xs -> reverse_pomozna (x::acc) xs
   in
   reverse_pomozna [] list
 
